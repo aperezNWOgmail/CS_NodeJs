@@ -1,0 +1,47 @@
+////////////////////////////////////////////////
+// node.js strategy
+////////////////////////////////////////////////
+
+-- [_]  With the built-in http module:
+
+const http = require('http');
+
+// Create a server that handles incoming requests
+const server = http.createServer((req, res) => {
+  if (req.url === '/endpoint1') {
+    // Handle request for endpoint1
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Response for endpoint1');
+  } else if (req.url === '/endpoint2') {
+    // Handle request for endpoint2
+    res.writeHead(200, { 'Content-Type': 'text/plain' });
+    res.end('Response for endpoint2');
+  } else {
+    res.writeHead(404, { 'Content-Type': 'text/plain' });
+    res.end('Not Found');
+  }
+});
+
+// Start the server on port 3000
+server.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
+
+-- [_] Using Express.js:
+
+const express = require('express');
+const app = express();
+
+// Handling GET requests for different endpoints
+app.get('/endpoint1', (req, res) => {
+  res.send('Response for endpoint1');
+});
+
+app.get('/endpoint2', (req, res) => {
+  res.send('Response for endpoint2');
+});
+
+// Start the server on port 3000
+app.listen(3000, () => {
+  console.log('Server running on port 3000');
+});
