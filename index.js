@@ -22,7 +22,7 @@ async function DatabaseConnect() {
   //
   try {
     //
-    const pool   = await sql.connect(config);
+    const pool = await sql.connect(config);
     const result = await pool.request().query("SELECT * FROM PERSONA");
     //
     console.log(result);
@@ -62,8 +62,13 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
 
 //
 (async () => {
+  //
+  const result = await DatabaseConnect();
+  //
+  console.log(result);
+  //
   app.get("/DatabaseConnect", (req, res) => {
-    res.send(await DatabaseConnect());
+    res.send(result);
   });
 })();
 
