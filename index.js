@@ -67,11 +67,11 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
   //
   const result = await DatabaseConnect();
   //
-  console.log(result);
-  //
   app.get("/DatabaseConnect", (req, res) => {
     res.send(result);
   });
+  //
+  console.log(result);
 })();
 
 // Start the server on port 3000
