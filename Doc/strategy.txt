@@ -45,3 +45,21 @@ app.get('/endpoint2', (req, res) => {
 app.listen(3000, () => {
   console.log('Server running on port 3000');
 });
+
+-- [_]  https://ms7tks-3000.csb.app/DatabaseConnect
+
+   -- [_]   /* originalError: ConnectionError: Failed to connect to webapiangulardemo.mssql.somee.com:1433 - self-signed certificate */
+
+   -- [_]  the self-signed certificate to the Node.js 
+
+   -- [_]  openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365
+
+   -- [_] Enter PEM pass phrase:
+
+   -- [_] Enter a secure passphrase: Type in a strong and secure passphrase. 
+          This passphrase should be memorable to you but difficult for others to guess. 
+          It should contain a mix of uppercase and lowercase letters, numbers, 
+          and special characters.
+          p@bloP3rez
+
+   --[_] openssl req -x509 -newkey rsa:4096 -keyout key.pem -out self-signed.crt -days 365 -subj "/C=US/ST=California/L=San Francisco/O=Example Inc./CN=webapiangulardemo.mssql.somee.com"

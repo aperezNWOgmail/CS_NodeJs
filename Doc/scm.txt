@@ -1,0 +1,2 @@
+--[_] openssl req -x509 -newkey rsa:4096 -keyout key.pem -out self-signed.crt -days 365 -subj "/C=US/ST=California/L=San Francisco/O=Example Inc./CN=example.com"
+--[_] openssl req -x509 -newkey rsa:4096 -keyout key.pem -out self-signed.crt -days 365 -subj "/C=US/ST=California/L=San Francisco/O=Example Inc./CN=webapiangulardemo.mssql.somee.com"
