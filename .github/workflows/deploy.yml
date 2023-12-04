@@ -1,9 +1,9 @@
-name: Deploy to GitHub Pages
+name: Deploy to Production
 
 on:
   push:
     branches:
-      - main # Replace with your main branch name
+      - main # Change to your main branch name
 
 jobs:
   deploy:
@@ -16,16 +16,14 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14' # Replace with your Node.js version
+          node-version: '14' # Change to your Node.js version
 
-      # Install dependencies and build your project (if needed)
-      - name: Install dependencies and build
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build and deploy
         run: |
-          npm install
-          npm run build # Replace with your build command if applicable
+          # Your deployment command here
+          # Example: npm run build && npm run deploy
 
-      - name: Deploy to GitHub Pages
-        uses : actions/deploy-pages # actions/deploy-github-pages@v7
-        #with:
-        #  github_token: ${{ secrets.GITHUB_TOKEN }}
-        #  publish_dir: ./dist # Replace with the directory containing your built files
+
