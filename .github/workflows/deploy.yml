@@ -26,5 +26,5 @@ jobs:
           # Your deployment command here
           # Example: npm run build && npm run deploy
           # node index.js 
-          yarn start
+          # yarn start
 
