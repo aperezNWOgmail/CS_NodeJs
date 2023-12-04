@@ -74,7 +74,7 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
   console.log(result);
 })();
 
-// Start the server on port 3000
+// 
 app.listen(portNumber, () => {
   console.log("Server running on port " + portNumber);
 });
