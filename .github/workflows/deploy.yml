@@ -25,7 +25,8 @@ jobs:
           npm run build # Replace with your build command if applicable
 
       - name: Deploy to GitHub Pages
-        uses: actions/deploy-github-pages@v7
+        #uses: actions/deploy-github-pages@v7
+        uses : actions/runs/7080542212/job/19268583294
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist # Replace with the directory containing your built files
