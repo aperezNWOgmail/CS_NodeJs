@@ -23,11 +23,13 @@ jobs:
         #npm install
 
       - name: Build and deploy
-        run:  npm run start
+        run:  yarn start
         # Your deployment command here
         # Example: npm run build && npm run deploy
         # node index.js 
         # yarn start 
+        # npm run start
+        
           
           
 
