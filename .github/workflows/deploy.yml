@@ -21,11 +21,8 @@ jobs:
       - name: Install dependencies
         run: npm install
 
-      - name: Install dependencies
-        run: yarn install 
-
       - name: Build and deploy
-        run: |
+        run: 
           # Your deployment command here
           # Example: npm run build && npm run deploy
           #node index.js 
