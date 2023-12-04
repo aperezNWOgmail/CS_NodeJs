@@ -23,7 +23,7 @@ jobs:
         #npm install
 
       - name: Build and deploy
-        run: 
+        run:  npm start
         # Your deployment command here
         # Example: npm run build && npm run deploy
         # node index.js 
