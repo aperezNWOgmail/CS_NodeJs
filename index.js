@@ -22,15 +22,23 @@ const config = {
 function SudokuGenerate() {
   return "[{2,0,8,5,1,3,4,6,7},{0,3,6,2,4,0,1,9,8},{0,0,0,8,6,0,2,5,3},{3,2,5,4,7,6,0,1,9},{0,6,9,1,8,2,3,7,5},{8,7,0,3,0,5,0,0,2},{0,4,7,9,2,8,0,3,1},{1,8,0,7,5,4,0,2,6},{9,5,2,0,0,1,7,0,4}]";
 }
+
 //
 async function generarinformejson() {
   //
   try {
     //
-    const sql =
-      "SELECT [ID_column],[PageName],[AccessDate],[IpValue] FROM [dbo].[accessLogs] order by [ID_column] desc";
+    let p_sql =
+      "SELECT * FROM ACCESSLOGS WHERE LOGTYPE=1 AND (PAGENAME LIKE '%DEMO%' AND PAGENAME LIKE '%PAGE%') AND PAGENAME NOT LIKE '%ERROR%' AND PAGENAME  NOT LIKE '%PAGE_DEMO_INDEX%' AND UPPER(PAGENAME) NOT LIKE '%CACHE%' AND IPVALUE <> '::1' ORDER BY ID_COLUMN DESC ";
+    //sql += " ";
+    //sql += " ";
+    //sql += " ";
+    //sql += " ";
+    //sql += " ";
+    //sql += " ";
+    //
     const pool = await sql.connect(config);
-    const result = await pool.request().query(sql);
+    const result = await pool.request().query(p_sql);
     //
     console.log(result);
     //
@@ -46,7 +54,7 @@ async function generarinformejson() {
     return JSON.parse("[]");
     //
   } finally {
-    sql.close();
+    //sql.close();
   }
 }
 
@@ -72,7 +80,7 @@ async function DatabaseConnect() {
     return JSON.parse("[]");
     //
   } finally {
-    sql.close();
+    //sql.close();
   }
 }
 
