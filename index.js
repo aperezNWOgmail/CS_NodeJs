@@ -29,13 +29,7 @@ async function generarinformejson() {
   try {
     //
     let p_sql =
-      "SELECT TOP 100 * FROM ACCESSLOGS WHERE LOGTYPE=1 AND (PAGENAME LIKE '%DEMO%' AND PAGENAME LIKE '%PAGE%') AND PAGENAME NOT LIKE '%ERROR%' AND PAGENAME  NOT LIKE '%PAGE_DEMO_INDEX%' AND UPPER(PAGENAME) NOT LIKE '%CACHE%' AND IPVALUE <> '::1' ORDER BY ID_COLUMN DESC ";
-    //sql += " ";
-    //sql += " ";
-    //sql += " ";
-    //sql += " ";
-    //sql += " ";
-    //sql += " ";
+      "SELECT TOP 100 accessDate,id_Column,ipValue,pageName  FROM ACCESSLOGS WHERE LOGTYPE=1 AND (PAGENAME LIKE '%DEMO%' AND PAGENAME LIKE '%PAGE%') AND PAGENAME NOT LIKE '%ERROR%' AND PAGENAME  NOT LIKE '%PAGE_DEMO_INDEX%' AND UPPER(PAGENAME) NOT LIKE '%CACHE%' AND IPVALUE <> '::1' ORDER BY ID_COLUMN DESC ";
     //
     const pool = await sql.connect(config);
     const result = await pool.request().query(p_sql);
@@ -59,12 +53,25 @@ async function generarinformejson() {
 }
 
 //
-async function DatabaseConnect() {
+async function GenerarInformeCSVJson() {
   //
   try {
+    /*
+      export interface PersonEntity 
+      {
+          id_Column       : string;
+          ciudad          : string;
+          nombreCompleto  : string;
+          profesionOficio : string;
+      }
+    */
     //
     const pool = await sql.connect(config);
-    const result = await pool.request().query("SELECT * FROM PERSONA");
+    const result = await pool
+      .request()
+      .query(
+        "SELECT id_Column, ciudad, nombreCompleto,profesionOficio FROM PERSONA",
+      );
     //
     console.log(result);
     //
@@ -99,9 +106,21 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
 // DatabaseConnect
 (async () => {
   //
-  const result = await DatabaseConnect();
+  const result = await GenerarInformeCSVJson();
   //
   app.get("/DatabaseConnect", (req, res) => {
+    res.send(result);
+  });
+  //
+  console.log(result);
+})();
+
+// GenerarInformeCSVJson
+(async () => {
+  //
+  const result = await GenerarInformeCSVJson();
+  //
+  app.get("/GenerarInformeCSVJson", (req, res) => {
     res.send(result);
   });
   //
