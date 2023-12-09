@@ -24,6 +24,30 @@ function SudokuGenerate() {
 }
 
 //
+function SudokuGenerate_CPP() {
+  const ffi = require("ffi-napi");
+  const dllPath = "./my_dll.dll";
+  const dll = ffi.Library(dllPath, {
+    // Define function signatures here
+  });
+
+  dll.add = {
+    args: ["int", "int"],
+    returns: "int",
+  };
+
+  dll.get_data = {
+    args: [],
+    returns: "pointer",
+  };
+
+  //
+  const result = dll.add(10, 20);
+  console.log(result);
+  //
+  const dataPtr = dll.get_data();
+}
+//
 async function generarinformejson() {
   //
   try {
