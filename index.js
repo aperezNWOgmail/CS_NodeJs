@@ -24,28 +24,39 @@ function SudokuGenerate() {
 }
 
 //
-function SudokuGenerate_CPP() {
+async function SudokuGenerate_CPP() {
+  /*
+  Here are some additional resources that you might find helpful:
+
+  - ffi-napi documentation: https://github.com/node-ffi-napi/node-ffi-napi
+  - node-ffi documentation: https://github.com/node-ffi/node-ffi
+  - ref-napi documentation: https://github.com/node-ffi-napi/ref-napi/issues
+  - Calling C++ DLL in NodeJS asynchronous: https://stackoverflow.com/questions/52241502/calling-c-dll-in-nodejs-asynchronous
+
+  */
+  //const ffi = require("ffi");
   const ffi = require("ffi-napi");
-  const dllPath = "./my_dll.dll";
+  const dllPath = "./Algorithm.dll";
   const dll = ffi.Library(dllPath, {
     // Define function signatures here
   });
-
+  /*
   dll.add = {
     args: ["int", "int"],
     returns: "int",
-  };
+  };*/
 
-  dll.get_data = {
+  //
+  dll.Sudoku_Generate_CPP = {
     args: [],
     returns: "pointer",
   };
 
   //
-  const result = dll.add(10, 20);
-  console.log(result);
+  const dataPtr = await dll.Sudoku_Generate_CPP();
+
   //
-  const dataPtr = dll.get_data();
+  return dataPtr;
 }
 //
 async function generarinformejson() {
@@ -123,6 +134,19 @@ app.use(
 );
 
 // Handling GET requests for different endpoints
+
+// DatabaseConnect
+(async () => {
+  //
+  const result = await SudokuGenerate_CPP();
+  //
+  app.get("/SudokuGenerate_CPP", (req, res) => {
+    res.send(SudokuGenerate_CPP());
+  });
+  //
+  console.log(result);
+})();
+
 app.get("/Sudoku_Generate_NodeJS", (req, res) => {
   res.send(SudokuGenerate());
 });
