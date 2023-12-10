@@ -257,4 +257,34 @@ export class SudokuSolver {
     return str_matrix;
   }
 }
+
+export class Grid {
+  constructor(rows, columns) {
+    this.rows = rows;
+    this.columns = columns;
+    this.data = new Array(rows).fill(new Array(columns).fill(0));
+  }
+
+  get() {
+    return this.data;
+  }
+
+  get(row, col) {
+    return this.data[row][col];
+  }
+
+  set(row, col, value) {
+    this.data[row][col] = value;
+  }
+}
+
+export function ReplaceAll(str, from, to) {
+  let startPos = 0;
+
+  while ((startPos = str.indexOf(from, startPos)) !== -1) {
+    str = str.replace(from, to);
+    startPos += to.length;
+  }
+}
+
 SudokuSolver.N = 9;
