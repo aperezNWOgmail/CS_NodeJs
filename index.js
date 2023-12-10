@@ -24,33 +24,16 @@ function SudokuGenerate() {
 }
 
 function Sudoku_Generate_CPP() {
-  var ffi = require("koffi");
+  //
+  var koffi = require("koffi");
   const dllPath = "./Algorithm.dll";
-  const dll = koffi.Library(dllPath);
-
-  const Sudoku_Generate_CPP = dll.function("Sudoku_Generate_CPP", [], "char*");
-
-  // Call the `add()` function
-  const result = Sudoku_Generate_CPP();
+  const dll = koffi.load(dllPath);
+  const f_Sudoku_Generate_CPP = dll.stdcall("Sudoku_Generate_CPP", [], "char*");
+  //
+  let result = f_Sudoku_Generate_CPP();
 
   // Print the result
   console.log(result); //
-
-  /*
-  var libm = ffi.Library(path.join(process.cwd(), "Algorithm.dll"), {
-    //
-  });
-
-  // Sudoku_Generate_CPP
-  dll.Sudoku_Generate_CPP = {
-    args: [],
-    returns: "pointer",
-  };
-  
-  //
-  const dataPtr = dll.Sudoku_Generate_CPP();
-  console.log(dataPtr);
-  */
 }
 //
 async function generarinformejson() {
@@ -130,10 +113,6 @@ app.use(
 //---------------------------------------------------
 // Handling GET requests for different endpoints
 //---------------------------------------------------
-
-app.get("/Sudoku_Generate_CPP", (req, res) => {
-  res.send(Sudoku_Generate_CPP());
-});
 
 app.get("/Sudoku_Generate_NodeJS", (req, res) => {
   res.send(SudokuGenerate());
