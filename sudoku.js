@@ -278,13 +278,4 @@ export class Grid {
   }
 }
 
-export function ReplaceAll(str, from, to) {
-  let startPos = 0;
-
-  while ((startPos = str.indexOf(from, startPos)) !== -1) {
-    str = str.replace(from, to);
-    startPos += to.length;
-  }
-}
-
 SudokuSolver.N = 9;

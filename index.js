@@ -1,7 +1,7 @@
 //
 console.log("[APPLICATION START]");
 //
-import SudokuGenerator, { SudokuSolver, Grid, ReplaceAll } from "./sudoku.js";
+import SudokuGenerator, { SudokuSolver } from "./sudoku.js";
 //const express = require("express");
 import express from "express";
 //const cors = require("cors");
@@ -26,6 +26,18 @@ const config = {
 //
 let portNumber = 4000;
 
+function ReplaceAll(str,from, to) {
+  //
+  let startPos   = 0;
+  let str_return = str;
+  //
+  while ((startPos = str_return.indexOf(from, startPos)) !== -1) {
+    str_return = str_return.replace(from, to);
+    startPos += to.length;
+  }
+  return str_return;
+}
+
 //Sudoku_Generate_NodeJS
 function SudokuGenerate() {
   //
@@ -36,13 +48,12 @@ function SudokuGenerate() {
   //
   return sudokuGenerator.Run();
   //
-  //return "[{2,0,8,5,1,3,4,6,7},{0,3,6,2,4,0,1,9,8},{0,0,0,8,6,0,2,5,3},{3,2,5,4,7,6,0,1,9},{0,6,9,1,8,2,3,7,5},{8,7,0,3,0,5,0,0,2},{0,4,7,9,2,8,0,3,1},{1,8,0,7,5,4,0,2,6},{9,5,2,0,0,1,7,0,4}]";
 }
 // Sudoku_Solve_NodeJS
+// https://ms7tks-4000.csb.app/Sudoku_Solve_NodeJS?p_matrix=[{6,1,5,0,4,3,7,8,9},{0,2,4,0,9,7,1,6,5},{8,0,9,6,5,1,0,4,3},{0,4,2,0,0,9,8,7,6},{7,3,6,4,0,2,5,0,1},{5,0,8,1,7,6,0,2,4},{0,5,3,9,6,8,4,0,7},{0,6,1,0,0,5,9,3,8},{0,0,7,3,1,4,0,5,2}]
 function SudokuSolve(p_matrix) {
   //
-  p_matrix =
-    "[{2,0,8,5,1,3,4,6,7},{0,3,6,2,4,0,1,9,8},{0,0,0,8,6,0,2,5,3},{3,2,5,4,7,6,0,1,9},{0,6,9,1,8,2,3,7,5},{8,7,0,3,0,5,0,0,2},{0,4,7,9,2,8,0,3,1},{1,8,0,7,5,4,0,2,6},{9,5,2,0,0,1,7,0,4}]";
+  let result = "";
   //
   const replaceMap = new Map();
   //
@@ -50,63 +61,56 @@ function SudokuSolve(p_matrix) {
   replaceMap.set("]", "");
   replaceMap.set("},", "|");
   replaceMap.set("{", "");
+  replaceMap.set("}", "");
   //
   for (const [key, value] of replaceMap) {
-    //ReplaceAll(p_matrix, new RegExp(key, "g"), value);
-    ReplaceAll(p_matrix, key, value);
+    p_matrix = ReplaceAll(p_matrix,key, value);
   }
-  //
-  ReplaceAll(p_matrix, "}", "");
-  //
-  console.log("Processed Matrix : " + p_matrix);
-
-  //
-  /*const grid = [
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-  ];*/
-
-  //
-  let grid = new Grid(9, 9);
   //
   const str_p_matrix_rows = p_matrix.split("|");
   //
-  console.log("Processed Matrix : " + str_p_matrix_rows);
-  //
-  let i = 0;
+  let grid = [
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+  ];
+  let i     = 0;
   //
   for (let row of str_p_matrix_rows) {
-    let j = 0;
-    //
-    const str_p_matrix_cols = row.split(",");
-    //
-    for (let col of str_p_matrix_cols) {
-      const num = parseInt(col);
       //
-      //grid.set(i, j, num);
+      //result += (row + "<br/>");
       //
-      j++;
-    }
-    //
-    i++;
+      let j = 0;
+      //
+      let str_p_matrix_cols = row.split(",");
+      //
+      for (let col of str_p_matrix_cols) {
+        //
+        let num = parseInt(col);
+        //
+        grid[i][j] = num;
+        //
+        j++; 
+      }
+      //
+      i++;
   }
   //
   let sudokuSolver = new SudokuSolver();
-  let result = sudokuSolver.Solve(grid.data);
+  result           = sudokuSolver.Solve(grid);
   //
   return result;
 }
 // NO FUNCIONA EN CODESANDBOX. dll EN LINUX SON DE FORMATO
-// FUNICONA PARCIAL EN VISUAL STUDIO.
+// FUNCIONA PARCIAL EN VISUAL STUDIO.
 function Sudoku_Generate_CPP() {
-  // NO FUNCIONA
+  // 
   const dllPath = "./Algorithm.dll";
   const dll = koffi.load(dllPath);
   const f_Sudoku_Generate_CPP = dll.stdcall("Sudoku_Generate_CPP", [], "char*");
@@ -196,10 +200,14 @@ app.use(
 //---------------------------------------------------
 
 app.get("/Sudoku_Solve_NodeJS", (req, res) => {
+  //
   const p_matrix = req.query.p_matrix;
-  const result = res.send(SudokuSolve(p_matrix));
+  const result   = SudokuSolve(p_matrix);
+  //
   console.log("SUDOKU_SOLVE_NODE_JS input  :  " + p_matrix);
   console.log("SUDOKU_SOLVE_NODE_JS output :  " + result);
+  //
+  res.send(result);
 });
 
 app.get("/Sudoku_Generate_NodeJS", (req, res) => {
