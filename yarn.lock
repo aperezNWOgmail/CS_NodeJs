@@ -830,6 +830,11 @@ https@^1.0.0:
   resolved "https://registry.npmjs.org/https/-/https-1.0.0.tgz"
   integrity sha512-4EC57ddXrkaF0x83Oj8sM6SLQHAWXw90Skqu2M4AEWENZ3F02dFJE/GARA8igO79tcgYqGrD7ae4f5L3um2lgg==
 
+i@^0.3.7:
+  version "0.3.7"
+  resolved "https://registry.npmjs.org/i/-/i-0.3.7.tgz"
+  integrity sha512-FYz4wlXgkQwIPqhzC5TdNMLSE5+GS1IIDJZY/1ZiEPCT2S3COUVZeT5OW4BmW4r5LHLQuOosSwsvnroG9GR59Q==
+
 iconv-lite@^0.6.3:
   version "0.6.3"
   resolved "https://registry.npmjs.org/iconv-lite/-/iconv-lite-0.6.3.tgz"
@@ -1064,6 +1069,11 @@ jws@^4.0.0:
   dependencies:
     jwa "^2.0.0"
     safe-buffer "^5.0.1"
+
+koffi@^2.6.11:
+  version "2.6.11"
+  resolved "https://registry.npmjs.org/koffi/-/koffi-2.6.11.tgz"
+  integrity sha512-8Kqa+7j7X8KoiI6uoz9p8X4un5sUpxThVENaiMm7sEe/NwkMaUuq+6n0rIxgF+m8qN42ycFlT0ox7TnFFNZUdQ==
 
 lodash.includes@^4.3.0:
   version "4.3.0"

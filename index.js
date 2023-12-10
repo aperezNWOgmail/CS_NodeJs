@@ -23,6 +23,35 @@ function SudokuGenerate() {
   return "[{2,0,8,5,1,3,4,6,7},{0,3,6,2,4,0,1,9,8},{0,0,0,8,6,0,2,5,3},{3,2,5,4,7,6,0,1,9},{0,6,9,1,8,2,3,7,5},{8,7,0,3,0,5,0,0,2},{0,4,7,9,2,8,0,3,1},{1,8,0,7,5,4,0,2,6},{9,5,2,0,0,1,7,0,4}]";
 }
 
+function Sudoku_Generate_CPP() {
+  var ffi = require("koffi");
+  const dllPath = "./Algorithm.dll";
+  const dll = koffi.Library(dllPath);
+
+  const Sudoku_Generate_CPP = dll.function("Sudoku_Generate_CPP", [], "char*");
+
+  // Call the `add()` function
+  const result = Sudoku_Generate_CPP();
+
+  // Print the result
+  console.log(result); //
+
+  /*
+  var libm = ffi.Library(path.join(process.cwd(), "Algorithm.dll"), {
+    //
+  });
+
+  // Sudoku_Generate_CPP
+  dll.Sudoku_Generate_CPP = {
+    args: [],
+    returns: "pointer",
+  };
+  
+  //
+  const dataPtr = dll.Sudoku_Generate_CPP();
+  console.log(dataPtr);
+  */
+}
 //
 async function generarinformejson() {
   //
@@ -101,6 +130,11 @@ app.use(
 //---------------------------------------------------
 // Handling GET requests for different endpoints
 //---------------------------------------------------
+
+app.get("/Sudoku_Generate_CPP", (req, res) => {
+  res.send(Sudoku_Generate_CPP());
+});
+
 app.get("/Sudoku_Generate_NodeJS", (req, res) => {
   res.send(SudokuGenerate());
 });
