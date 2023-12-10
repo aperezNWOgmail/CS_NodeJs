@@ -1,5 +1,5 @@
 // This code is contributed by Aarti_Rathi
-class SudokuGenerator {
+export default class SudokuGenerator {
   constructor(N, K) {
     this.N = N;
     this.K = K;
@@ -155,7 +155,7 @@ class SudokuGenerator {
   }
 }
 
-class SudokuSolver {
+export class SudokuSolver {
   constructor() {}
 
   isSafe(grid, row, col, num) {

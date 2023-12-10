@@ -1,12 +1,19 @@
 //
 console.log("[APPLICATION START]");
 //
-import SudokuGenerator from "./Sudoku.js";
+import SudokuGenerator from "./sudoku.js";
 //
-const express = require("express");
-const cors = require("cors");
+//const express = require("express");
+import express from "express";
+//const cors = require("cors");
+import cors from "cors";
+//const sql = require("mssql");
+import sql from "mssql";
+//const koffi = require("koffi");
+import koffi from "koffi";
+
+//
 const app = express();
-const sql = require("mssql");
 const config = {
   user: "aperezNWO_SQLLogin_1",
   password: "aperezNWO_SQLLogin_1",
@@ -34,7 +41,6 @@ function SudokuGenerate() {
 
 function Sudoku_Generate_CPP() {
   //
-  var koffi = require("koffi");
   const dllPath = "./Algorithm.dll";
   const dll = koffi.load(dllPath);
   const f_Sudoku_Generate_CPP = dll.stdcall("Sudoku_Generate_CPP", [], "char*");
