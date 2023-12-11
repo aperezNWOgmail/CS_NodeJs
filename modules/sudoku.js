@@ -2,7 +2,7 @@
 import koffi from "koffi";
 
 // This code is contributed by Aarti_Rathi
-export default class SudokuGenerator {
+class SudokuGenerator {
   constructor(N, K) {
     this.N = N;
     this.K = K;
@@ -158,7 +158,7 @@ export default class SudokuGenerator {
   }
 }
 
-export class SudokuSolver {
+class SudokuSolver {
   constructor() {}
 
   isSafe(grid, row, col, num) {
@@ -265,7 +265,20 @@ export class Grid {
   constructor(rows, columns) {
     this.rows = rows;
     this.columns = columns;
-    this.data = new Array(rows).fill(new Array(columns).fill(0));
+    this.data =
+      /* new Array(rows).fill(new Array(columns).fill(0));*/
+      //
+      [
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+        [-1, -1, -1, -1, -1, -1, -1, -1, -1],
+      ];
   }
 
   get() {
@@ -309,7 +322,7 @@ function ReplaceAll(str, from, to) {
   return str_return;
 }
 //Sudoku_Generate_NodeJS
-export function SudokuGenerate() {
+export default function SudokuGenerate() {
   //
   let N = 9;
   let K = 20;
@@ -340,17 +353,8 @@ export function SudokuSolve(p_matrix) {
   //
   const str_p_matrix_rows = p_matrix.split("|");
   //
-  let grid = [
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-    [-1, -1, -1, -1, -1, -1, -1, -1, -1],
-  ];
+  let grid = new Grid(9, 9);
+  //
   let i = 0;
   //
   for (let row of str_p_matrix_rows) {
@@ -365,7 +369,8 @@ export function SudokuSolve(p_matrix) {
       //
       let num = parseInt(col);
       //
-      grid[i][j] = num;
+      //grid[i][j] = num;
+      grid.set(i, j, num);
       //
       j++;
     }
@@ -374,7 +379,7 @@ export function SudokuSolve(p_matrix) {
   }
   //
   let sudokuSolver = new SudokuSolver();
-  result = sudokuSolver.Solve(grid);
+  result = sudokuSolver.Solve(grid.data);
   //
   return result;
 }

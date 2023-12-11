@@ -14,7 +14,7 @@ import cors from "cors";
 //
 let appName = "[WEB API / NODE.JS - DEMO]";
 //
-let appVersion = "1.0.0.2";
+let appVersion = "1.0.0.3";
 //
 let portNumber = 4000;
 //
