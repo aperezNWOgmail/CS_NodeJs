@@ -13,7 +13,7 @@ const config = {
 };
 
 //
-async function generarinformejson() {
+export async function generarinformejson() {
   //
   try {
     //
@@ -41,7 +41,7 @@ async function generarinformejson() {
   }
 }
 //
-async function GenerarInformeCSVJson() {
+export async function GenerarInformeCSVJson() {
   //
   try {
     /*
