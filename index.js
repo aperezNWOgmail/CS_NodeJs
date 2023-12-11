@@ -1,6 +1,12 @@
 //
 console.log("[APPLICATION START]");
 //
+let appName    = "[WEB API / NODE.JS - DEMO]"
+//
+let appVersion = "1.0.0.1";
+//
+let portNumber = 4000;
+//
 import SudokuGenerator, { SudokuSolver } from "./sudoku.js";
 //const express = require("express");
 import express from "express";
@@ -24,8 +30,6 @@ const config = {
   },
 };
 //
-let portNumber = 4000;
-
 function ReplaceAll(str,from, to) {
   //
   let startPos   = 0;
@@ -254,5 +258,7 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
 // DRIVER CODE|
 //---------------------------------------------------
 app.listen(portNumber, () => {
-  console.log("Server running on port " + portNumber);
+  console.log(" Application Name    : " + this.appName);
+  console.log(" Application Version : " + this.appVersion)
+  console.log( "Server running on port " + portNumber);
 });
