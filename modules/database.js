@@ -1,6 +1,6 @@
-//const sql = require("mssql");
+//
 import sql from "mssql";
-
+//
 const config = {
   user: "aperezNWO_SQLLogin_1",
   password: "aperezNWO_SQLLogin_1",
@@ -13,7 +13,7 @@ const config = {
 };
 
 //
-export async function generarinformejson() {
+export default async function generarinformejson() {
   //
   try {
     //
