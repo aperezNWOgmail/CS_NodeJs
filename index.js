@@ -1,12 +1,6 @@
-//
-console.log("[APPLICATION START]");
-//
-let appName = "[WEB API / NODE.JS - DEMO]";
-//
-let appVersion = "1.0.0.2";
-//
-let portNumber = 4000;
-//
+//---------------------------------------------------
+// IMPORT BLOCK
+//---------------------------------------------------
 import SudokuGenerate, { SudokuSolve } from "./modules/sudoku.js";
 import generarinformejson, {
   GenerarInformeCSVJson,
@@ -14,18 +8,27 @@ import generarinformejson, {
 //
 import express from "express";
 import cors from "cors";
+//---------------------------------------------------
+// VARIABLE DECLARATION
+//---------------------------------------------------
+//
+let appName = "[WEB API / NODE.JS - DEMO]";
+//
+let appVersion = "1.0.0.2";
+//
+let portNumber = 4000;
 //
 const app = express();
+
+//---------------------------------------------------
+// Handling GET requests for different endpoints
+//---------------------------------------------------
 //
 app.use(
   cors({
     origin: "*",
   }),
 );
-
-//---------------------------------------------------
-// Handling GET requests for different endpoints
-//---------------------------------------------------
 
 app.get("/Sudoku_Solve_NodeJS", (req, res) => {
   //
@@ -79,9 +82,12 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
 })();
 
 //---------------------------------------------------
-// DRIVER CODE|
+// DRIVER CODE
 //---------------------------------------------------
+//
 app.listen(portNumber, () => {
+  //
+  console.log("[APPLICATION START]");
   console.log(" Application Name       : " + appName);
   console.log(" Application Version    : " + appVersion);
   console.log(" Server running on port : " + portNumber);
