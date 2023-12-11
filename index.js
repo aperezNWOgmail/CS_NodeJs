@@ -8,6 +8,8 @@ import generarinformejson, {
 //
 import express from "express";
 import cors from "cors";
+import fs   from 'fs';
+
 //---------------------------------------------------
 // VARIABLE DECLARATION
 //---------------------------------------------------
@@ -75,6 +77,26 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
   const result = await generarinformejson();
   //
   app.get("/generarinformejson", (req, res) => {
+    res.send(result);
+  });
+  //
+  console.log(result);
+})();
+
+// index
+async function  GetIndex()
+{
+  //
+  const data = await fs.readFileSync('index.html', 'utf8');
+  //
+  return data;
+}
+// 
+(async () => {
+  //
+  const result = await GetIndex();
+  //
+  app.get("/Index", (req, res) => {
     res.send(result);
   });
   //
