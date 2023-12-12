@@ -86,8 +86,8 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
 // index
 async function GetIndex() {
   //
-  //const data = await fs.readFileSync('index.html', 'utf8');
-  const data = await fs.readFileSync("index.html");
+  const data = await fs.readFileSync('index.html', 'utf8');
+  //const data = await fs.readFileSync("index.html");
   //
   return data;
 }
