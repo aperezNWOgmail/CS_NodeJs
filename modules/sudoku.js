@@ -1,6 +1,3 @@
-//
-import koffi from "koffi";
-
 // This code is contributed by Aarti_Rathi
 class SudokuGenerator {
   constructor(N, K) {
@@ -295,20 +292,6 @@ export class Grid {
 }
 
 SudokuSolver.N = 9;
-
-// NO FUNCIONA EN CODESANDBOX. dll EN LINUX SON DE FORMATO
-// FUNCIONA PARCIAL EN VISUAL STUDIO.
-function Sudoku_Generate_CPP() {
-  //
-  const dllPath = "./Algorithm.dll";
-  const dll = koffi.load(dllPath);
-  const f_Sudoku_Generate_CPP = dll.stdcall("Sudoku_Generate_CPP", [], "char*");
-  //
-  let result = f_Sudoku_Generate_CPP();
-
-  // Print the result
-  console.log(result); //
-}
 //
 function ReplaceAll(str, from, to) {
   //
@@ -359,8 +342,6 @@ export function SudokuSolve(p_matrix) {
   //
   for (let row of str_p_matrix_rows) {
     //
-    //result += (row + "<br/>");
-    //
     let j = 0;
     //
     let str_p_matrix_cols = row.split(",");
@@ -369,7 +350,6 @@ export function SudokuSolve(p_matrix) {
       //
       let num = parseInt(col);
       //
-      //grid[i][j] = num;
       grid.set(i, j, num);
       //
       j++;

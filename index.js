@@ -8,7 +8,7 @@ import generarinformejson, {
 //
 import express from "express";
 import cors from "cors";
-import fs   from 'fs';
+import fs from "fs";
 
 //---------------------------------------------------
 // VARIABLE DECLARATION
@@ -84,14 +84,14 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
 })();
 
 // index
-async function  GetIndex()
-{
+async function GetIndex() {
   //
-  const data = await fs.readFileSync('index.html', 'utf8');
+  //const data = await fs.readFileSync('index.html', 'utf8');
+  const data = await fs.readFileSync("index.html");
   //
   return data;
 }
-// 
+//
 (async () => {
   //
   const result = await GetIndex();
