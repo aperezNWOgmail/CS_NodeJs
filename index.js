@@ -86,7 +86,7 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
 // index
 async function GetIndex() {
   //
-  const data = await fs.readFileSync('index.html', 'utf8');
+  const data = await fs.readFileSync("index.html", "utf8");
   //const data = await fs.readFileSync("index.html");
   //
   return data;
@@ -114,3 +114,15 @@ app.listen(portNumber, () => {
   console.log(" Application Version    : " + appVersion);
   console.log(" Server running on port : " + portNumber);
 });
+
+// To stop the server
+// For example, you might use Ctrl + C in your terminal to trigger this function
+const stopServer = () => {
+  server.close(() => {
+    console.log("Server stopped");
+  });
+};
+
+// Call stopServer when you want to stop the server
+// For example, you might trigger it in response to a specific condition or manually via some signal.
+// stopServer();
