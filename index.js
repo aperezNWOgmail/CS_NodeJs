@@ -9,7 +9,7 @@ import generarinformejson, {
 import express from "express";
 import cors from "cors";
 import fs from "fs";
-
+import TicTacToeTest from "./modules/tictactoe.js";
 //---------------------------------------------------
 // VARIABLE DECLARATION
 //---------------------------------------------------
@@ -45,6 +45,10 @@ app.get("/Sudoku_Solve_NodeJS", (req, res) => {
 
 app.get("/Sudoku_Generate_NodeJS", (req, res) => {
   res.send(SudokuGenerate());
+});
+
+app.get("/tictactoe", (req, res) => {
+  res.send(TicTacToeTest());
 });
 
 // DatabaseConnect
