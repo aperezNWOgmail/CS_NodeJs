@@ -218,7 +218,7 @@ class TicTacToe {
 
 function TicTacToeTest() {
   let ticTacToe = new TicTacToe();
-  ticTacToe.Run();
+  //ticTacToe.Run();
 }
 
 // Export the function using module.exports
