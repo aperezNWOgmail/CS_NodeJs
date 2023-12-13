@@ -1,4 +1,6 @@
+//import express from "express";
 const prompt = require("prompt-sync")();
+//import prompt from "prompt-sync";
 
 class TicTacToe {
   showBoard(board) {
@@ -214,7 +216,10 @@ class TicTacToe {
   }
 }
 
-export default function TicTacToeTest() {
+function TicTacToeTest() {
   let ticTacToe = new TicTacToe();
   ticTacToe.Run();
 }
+
+// Export the function using module.exports
+module.exports = TicTacToeTest;

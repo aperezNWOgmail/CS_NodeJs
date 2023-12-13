@@ -9,7 +9,7 @@ import generarinformejson, {
 import express from "express";
 import cors from "cors";
 import fs from "fs";
-import TicTacToeTest from "./modules/tictactoe.js";
+import TicTacToeTest from "./modules/tictactoe.cjs";
 //---------------------------------------------------
 // VARIABLE DECLARATION
 //---------------------------------------------------
