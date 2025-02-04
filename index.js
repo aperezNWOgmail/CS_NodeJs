@@ -10,6 +10,7 @@ import express from "express";
 import cors from "cors";
 import fs from "fs";
 import TicTacToeTest from "./modules/tictactoe.cjs";
+import nodemailer from "nodemailer";
 //---------------------------------------------------
 // VARIABLE DECLARATION
 //---------------------------------------------------
@@ -21,7 +22,25 @@ let appVersion = "1.0.0.3";
 let portNumber = 4000;
 //
 const app = express();
-
+//
+const transporter = nodemailer.createTransport({
+  service: "gmail", // Use Gmail's SMTP server
+  host: "smtp.gmail.com",
+  port: 587, //587, // Port for TLS
+  secure: false, // true for 465 (SSL), false for other ports
+  auth: {
+    user: "alejandro.perez.acosta@gmail.com", // Replace with your Gmail address
+    pass: "bzjz fsev xwoh dgkt", // Replace with your Gmail password or app-specific password
+  },
+});
+// Step 2: Define the email options
+const mailOptions = {
+  from: "alejandro.perez.acosta@gmail.com", // Sender address
+  to: "alejandro.perez.acosta@hotmail.com", // List of recipients
+  subject: "Test Email from Node.js", // Subject line
+  text: "This is a test email sent from Node.js using Gmail SMTP.", // Plain text body
+  html: "<h1>Hello!</h1><p>This is a test email sent from <b>Node.js</b> using Gmail SMTP.</p>", // HTML body
+};
 //---------------------------------------------------
 // Handling GET requests for different endpoints
 //---------------------------------------------------
@@ -29,7 +48,7 @@ const app = express();
 app.use(
   cors({
     origin: "*",
-  }),
+  })
 );
 
 app.get("/Sudoku_Solve_NodeJS", (req, res) => {
@@ -106,7 +125,22 @@ async function GetIndex() {
   //
   console.log(result);
 })();
-
+//
+app.get("/SendEmail", (req, res) => {
+  //
+  const result = "";
+  // Step 3: Send the email
+  transporter.sendMail(mailOptions, (error, info) => {
+    if (error) {
+      console.error("Error sending email:", error);
+    } else {
+      console.log("Email sent successfully:", info.response);
+      result = info.response;
+    }
+  });
+  //
+  res.send(result);
+});
 //---------------------------------------------------
 // DRIVER CODE
 //---------------------------------------------------
