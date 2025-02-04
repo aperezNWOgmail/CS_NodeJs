@@ -126,12 +126,11 @@ async function GetIndex() {
   console.log(result);
 })();
 //
-
-(async () => {
+app.get("/SendEmail", (req, res) => {
   //
   const result = "";
   // Step 3: Send the email
-  await transporter.sendMail(mailOptions, (error, info) => {
+  transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.error("Error sending email:", error);
     } else {
@@ -140,12 +139,8 @@ async function GetIndex() {
     }
   });
   //
-  app.get("/SendMail", (req, res) => {
-    res.send(result);
-  });
-  //
-  console.log(result);
-})();
+  res.send(result);
+});
 //---------------------------------------------------
 // DRIVER CODE
 //---------------------------------------------------
