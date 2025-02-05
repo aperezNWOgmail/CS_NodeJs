@@ -173,7 +173,7 @@ app.post("/contact", async (req, res) => {
     const emailText =
       "Gracias por enviar su información. Pronto estaremos contactandolo.";
     const emailHtml =
-      "<h2>Gracias por enviar su información</h2><p>Pronto estaremos contactandolo.</p><p>Atte : Pablo Alejandro Pérez Acosta. Whatsapp : +573204294533</p>";
+      "<h2>Gracias por enviar su información</h2><p>Pronto estaremos contactandolo.<br>Atte : Pablo Alejandro Pérez Acosta. Whatsapp : +573204294533</p>";
 
     sendDynamicEmail(recipient, emailSubject, emailText, emailHtml);
 
