@@ -11,6 +11,8 @@ import cors from "cors";
 import fs from "fs";
 import TicTacToeTest from "./modules/tictactoe.cjs";
 import nodemailer from "nodemailer";
+import bodyParser from "body-parser";
+import sql from "mssql";
 //---------------------------------------------------
 // VARIABLE DECLARATION
 //---------------------------------------------------
@@ -33,18 +35,11 @@ const transporter = nodemailer.createTransport({
     pass: "bzjz fsev xwoh dgkt", // Replace with your Gmail password or app-specific password
   },
 });
-// Step 2: Define the email options
-const mailOptions = {
-  from: "alejandro.perez.acosta@gmail.com", // Sender address
-  to: "alejandro.perez.acosta@hotmail.com", // List of recipients
-  subject: "Test Email from Node.js", // Subject line
-  text: "This is a test email sent from Node.js using Gmail SMTP.", // Plain text body
-  html: "<h1>Hello!</h1><p>This is a test email sent from <b>Node.js</b> using Gmail SMTP.</p>", // HTML body
-};
 //---------------------------------------------------
 // Handling GET requests for different endpoints
 //---------------------------------------------------
 //
+app.use(bodyParser.json());
 app.use(
   cors({
     origin: "*",
@@ -141,6 +136,72 @@ app.get("/SendEmail", (req, res) => {
   //
   res.send(result);
 });
+//
+// SQL Server configuration
+const config = {
+  user: "aperezNWO_SQLLogin_1",
+  password: "aperezNWO_SQLLogin_1",
+  server: "webapiangulardemo.mssql.somee.com",
+  database: "webapiangulardemo",
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,
+  },
+};
+// POST endpoint to handle form submission
+app.post("/contact", async (req, res) => {
+  const { name, email, message } = req.body;
+
+  try {
+    // Connect to the SQL Server
+    const pool = await sql.connect(config);
+
+    // Insert the data into the database
+    const result = await pool
+      .request()
+      .input("name", sql.NVarChar(100), name)
+      .input("email", sql.NVarChar(100), email)
+      .input("message", sql.NVarChar(sql.MAX), message)
+      .query(
+        "INSERT INTO ContactForm (Name, Email, Message) VALUES (@name, @email, @message)"
+      );
+
+    console.log("Data inserted successfully:", result);
+
+    const recipient    = email;
+    const emailSubject = 'Contacto - Tutorias en Programacion';
+    const emailText    = 'Gracias por enviar su información. Pronto estaremos contactandolo.';
+    const emailHtml    = '<h2>Gracias por enviar su información</h2><p>Pronto estaremos contactandolo.</p>';
+
+    sendDynamicEmail(recipient, emailSubject, emailText, emailHtml);
+
+    res.status(200).send({ message: "Form submitted successfully!" });
+  } catch (err) {
+    console.error("Error inserting data:", err);
+    res.status(500).send({ error: "An error occurred while saving the data." });
+  }
+});
+//
+// Step 2: Function to send email with dynamic options
+function sendDynamicEmail(to, subject, text, html) {
+  // Define the base mailOptions
+  const _mailOptions = {
+      from: "alejandro.perez.acosta@gmail.com", // Sender address
+      to: to, // List of recipients
+      subject: subject, // Subject line
+      text: text ,// Plain text body
+      html: html, // HTML body
+  };
+
+  // Step 3: Send the email
+  transporter.sendMail(_mailOptions, (error, info) => {
+    if (error) {
+      console.error('Error sending email:', error);
+    } else {
+      console.log('Email sent successfully:', info.response);
+    }
+  });
+}
 //---------------------------------------------------
 // DRIVER CODE
 //---------------------------------------------------
