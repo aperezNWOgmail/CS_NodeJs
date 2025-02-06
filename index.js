@@ -177,7 +177,8 @@ app.post("/contact", async (req, res) => {
       "<p>Pronto estaremos contactandolo." +
       "<br><br>Atte : <b>Pablo Alejandro Pérez Acosta</b>." +
       "<br><br>Linkedin : <a href='www.linkedin.com/in/pablo-alejandro-pérez-acosta-54765770' target='_blank'>(ir a perfil)</a>" +
-      "<br><br>Whatsapp : <a href='https://wa.me/573223573416?text=Hola%20Necesito%20Asesoria!' target='_blank'>+573223573416</p>";
+      "<br><br>Whatsapp : <a href='https://wa.me/573223573416?text=Hola%20Necesito%20Asesoria!' target='_blank'>+573223573416</p>" +
+      "<br><br>Demo     : <a href='https://apereznwo.github.io/PWA_DEMO_ENV_PUBLIC' target='_blank'>(Ir a Demo)</p>";
 
     sendDynamicEmail(recipient, emailSubject, emailText, emailHtml);
 
@@ -193,7 +194,7 @@ function sendDynamicEmail(to, subject, text, html) {
   // Define the base mailOptions
   const _mailOptions = {
     from: "alejandro.perez.acosta@gmail.com", // Sender address
-    to: to + ";alejandro.perez.acosta@hotmail.com", // List of recipients
+    to: to + ";alejandro.perez.acosta@gmail.com", // List of recipients
     subject: subject, // Subject line
     text: text, // Plain text body
     html: html, // HTML body
