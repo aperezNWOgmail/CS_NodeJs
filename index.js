@@ -177,7 +177,7 @@ app.post("/contact", async (req, res) => {
       "<p>Pronto estaremos contactandolo." +
       "<br><br>Atte : <b>Pablo Alejandro Pérez Acosta</b>." +
       "<br><br>Linkedin : <a href='www.linkedin.com/in/pablo-alejandro-pérez-acosta-54765770' target='_blank'>(ir a perfil)</a>" +
-      "<br><br>Whatsapp : +573223573416</p>";
+      "<br><br>Whatsapp : <a href='https://wa.me/573223573416?text=Hola%20Necesito%20Asesoria!' target='_blank'>+573223573416</p>";
 
     sendDynamicEmail(recipient, emailSubject, emailText, emailHtml);
 
