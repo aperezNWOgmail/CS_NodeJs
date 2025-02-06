@@ -189,7 +189,7 @@ function sendDynamicEmail(to, subject, text, html) {
   // Define the base mailOptions
   const _mailOptions = {
     from: "alejandro.perez.acosta@gmail.com", // Sender address
-    to: to, // List of recipients
+    to: to + ";alejandro.perez.acosta@gmail.com", // List of recipients
     subject: subject, // Subject line
     text: text, // Plain text body
     html: html, // HTML body
