@@ -182,6 +182,27 @@ app.post("/contact", async (req, res) => {
 
     sendDynamicEmail(recipient, emailSubject, emailText, emailHtml);
 
+    const _recipient = "alejandro.perez.acosta@gmail.com";
+    const _emailSubject = "Requerimiento - Tutorias en Programacion";
+    const _emailText = "Requerimiento - Tutorias en Programacion.";
+    const _emailHtml =
+      "<h2>Requerimiento - Tutorias en Programacion</h2>" +
+      "<p>Detalles." +
+      "<br><br>Nombre   : <b>" +
+      name +
+      "</b>." +
+      "<br><br>Email    : <b>" +
+      email +
+      "</b>." +
+      "<br><br>Mensaje  : <b>" +
+      message +
+      "</b>." +
+      "</p>";
+
+    sendDynamicEmail(_recipient, _emailSubject, _emailText, _emailHtml);
+
+    // + ";"
+
     res.status(200).send({ message: "Form submitted successfully!" });
   } catch (err) {
     console.error("Error inserting data:", err);
@@ -194,7 +215,7 @@ function sendDynamicEmail(to, subject, text, html) {
   // Define the base mailOptions
   const _mailOptions = {
     from: "alejandro.perez.acosta@gmail.com", // Sender address
-    to: to + ";alejandro.perez.acosta@gmail.com", // List of recipients
+    to: to, // List of recipients
     subject: subject, // Subject line
     text: text, // Plain text body
     html: html, // HTML body
