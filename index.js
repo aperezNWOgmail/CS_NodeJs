@@ -4,6 +4,7 @@
 import SudokuGenerate, { SudokuSolve } from "./modules/sudoku.js";
 import generarinformejson, {
   GenerarInformeCSVJson,
+  GenerarInformeLogin,
 } from "./modules/database.js";
 //
 import express from "express";
@@ -35,6 +36,18 @@ const transporter = nodemailer.createTransport({
     pass: "bzjz fsev xwoh dgkt", // Replace with your Gmail password or app-specific password
   },
 });
+//
+// SQL Server configuration
+const config = {
+  user: "aperezNWO_SQLLogin_1",
+  password: "aperezNWO_SQLLogin_1",
+  server: "webapiangulardemo.mssql.somee.com",
+  database: "webapiangulardemo",
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,
+  },
+};
 //---------------------------------------------------
 // Handling GET requests for different endpoints
 //---------------------------------------------------
@@ -64,7 +77,7 @@ app.get("/Sudoku_Generate_NodeJS", (req, res) => {
 app.get("/tictactoe", (req, res) => {
   res.send(TicTacToeTest());
 });
-
+//
 // DatabaseConnect
 (async () => {
   //
@@ -100,6 +113,45 @@ app.get("/tictactoe", (req, res) => {
   //
   console.log(result);
 })();
+// DatabaseConnect
+(async () => {
+  //
+  const result = await GenerarInformeLogin();
+  //
+  app.get("/_generarinformelogin", (req, res) => {
+    res.setHeader(
+      "Cache-Control",
+      "no-store, no-cache, must-revalidate, proxy-revalidate"
+    );
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    res.send(result);
+  });
+  //
+  console.log(result);
+})();
+
+app.get("/generarinformelogin", async (req, res) => {
+  res.setHeader(
+    "Cache-Control",
+    "no-store, no-cache, must-revalidate, proxy-revalidate"
+  );
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+
+  try {
+    const pool = await sql.connect(config);
+    //
+    let p_sql =
+      " select id id, Name name, Email field_1, Message field_2, CreatedAt field_3 from contactForm order by id desc ";
+
+    const result = await pool.request().query(p_sql);
+    res.json(result.recordset);
+  } catch (err) {
+    console.error("Database query failed:", err);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 // index
 async function GetIndex() {
@@ -137,17 +189,6 @@ app.get("/SendEmail", (req, res) => {
   res.send(result);
 });
 //
-// SQL Server configuration
-const config = {
-  user: "aperezNWO_SQLLogin_1",
-  password: "aperezNWO_SQLLogin_1",
-  server: "webapiangulardemo.mssql.somee.com",
-  database: "webapiangulardemo",
-  options: {
-    encrypt: true,
-    trustServerCertificate: true,
-  },
-};
 // POST endpoint to handle form submission
 app.post("/contact", async (req, res) => {
   const { name, email, message } = req.body;

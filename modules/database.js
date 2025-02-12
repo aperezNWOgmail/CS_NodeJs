@@ -58,8 +58,37 @@ export async function GenerarInformeCSVJson() {
     const result = await pool
       .request()
       .query(
-        "SELECT id_Column, ciudad, nombreCompleto,profesionOficio FROM PERSONA",
+        "SELECT id_Column, ciudad, nombreCompleto,profesionOficio FROM PERSONA"
       );
+    //
+    console.log(result);
+    //
+    return result;
+  } catch (err) {
+    //
+    console.error("Error:", err);
+    //
+    if (err.originalError && err.originalError.info) {
+      console.error("Detailed Error Info:", err.originalError.info);
+    }
+    //
+    return JSON.parse("[]");
+    //
+  } finally {
+    //sql.close();
+  }
+}
+//
+//
+export async function GenerarInformeLogin() {
+  //
+  try {
+    //
+    let p_sql =
+      " select id, Name, Email, Message, CreatedAt from contactForm order by id desc ";
+    //
+    const pool = await sql.connect(config);
+    const result = await pool.request().query(p_sql);
     //
     console.log(result);
     //
