@@ -120,7 +120,9 @@ async function GetIndex() {
   //
   console.log(result);
 })();
-//
+/////////////////////////////////////////////////////////
+// SMTP FUNCTIONS
+/////////////////////////////////////////////////////////
 app.get("/SendEmail", (req, res) => {
   //
   const result = "";
@@ -137,17 +139,6 @@ app.get("/SendEmail", (req, res) => {
   res.send(result);
 });
 //
-// SQL Server configuration
-const config = {
-  user: "aperezNWO_SQLLogin_1",
-  password: "aperezNWO_SQLLogin_1",
-  server: "webapiangulardemo.mssql.somee.com",
-  database: "webapiangulardemo",
-  options: {
-    encrypt: true,
-    trustServerCertificate: true,
-  },
-};
 // POST endpoint to handle form submission
 app.post("/contact", async (req, res) => {
   const { name, email, message } = req.body;
@@ -168,12 +159,40 @@ app.post("/contact", async (req, res) => {
 
     console.log("Data inserted successfully:", result);
 
-    const recipient    = email;
-    const emailSubject = 'Contacto - Tutorias en Programacion';
-    const emailText    = 'Gracias por enviar su información. Pronto estaremos contactandolo.';
-    const emailHtml    = '<h2>Gracias por enviar su información</h2><p>Pronto estaremos contactandolo.</p>';
+    const recipient = email;
+    const emailSubject = "Contacto - Tutorias en Programacion";
+    const emailText =
+      "Gracias por enviar su información. Pronto estaremos contactandolo.";
+    const emailHtml =
+      "<h2>Gracias por enviar su información</h2>" +
+      "<p>Pronto estaremos contactandolo." +
+      "<br><br>Atte : <b>Pablo Alejandro Pérez Acosta</b>." +
+      "<br><br>Linkedin : <a href='www.linkedin.com/in/pablo-alejandro-pérez-acosta-54765770' target='_blank'>(ir a perfil)</a>" +
+      "<br><br>Whatsapp : <a href='https://wa.me/573223573416?text=Hola%20Necesito%20Asesoria!' target='_blank'>+573223573416</a>" +
+      "<br><br>Demo     : <a href='https://apereznwo.github.io/PWA_DEMO_ENV_PUBLIC' target='_blank'>(Ir a Demo)</a></p>";
 
     sendDynamicEmail(recipient, emailSubject, emailText, emailHtml);
+
+    const _recipient = "alejandro.perez.acosta@gmail.com";
+    const _emailSubject = "Requerimiento - Tutorias en Programacion";
+    const _emailText = "Requerimiento - Tutorias en Programacion.";
+    const _emailHtml =
+      "<h2>Requerimiento - Tutorias en Programacion</h2>" +
+      "<p>Detalles." +
+      "<br><br>Nombre   : <b>" +
+      name +
+      "</b>." +
+      "<br><br>Email    : <b>" +
+      email +
+      "</b>." +
+      "<br><br>Mensaje  : <b>" +
+      message +
+      "</b>." +
+      "</p>";
+
+    sendDynamicEmail(_recipient, _emailSubject, _emailText, _emailHtml);
+
+    // + ";"
 
     res.status(200).send({ message: "Form submitted successfully!" });
   } catch (err) {
@@ -186,19 +205,19 @@ app.post("/contact", async (req, res) => {
 function sendDynamicEmail(to, subject, text, html) {
   // Define the base mailOptions
   const _mailOptions = {
-      from: "alejandro.perez.acosta@gmail.com", // Sender address
-      to: to, // List of recipients
-      subject: subject, // Subject line
-      text: text ,// Plain text body
-      html: html, // HTML body
+    from: "alejandro.perez.acosta@gmail.com", // Sender address
+    to: to, // List of recipients
+    subject: subject, // Subject line
+    text: text, // Plain text body
+    html: html, // HTML body
   };
 
   // Step 3: Send the email
   transporter.sendMail(_mailOptions, (error, info) => {
     if (error) {
-      console.error('Error sending email:', error);
+      console.error("Error sending email:", error);
     } else {
-      console.log('Email sent successfully:', info.response);
+      console.log("Email sent successfully:", info.response);
     }
   });
 }
