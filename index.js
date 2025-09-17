@@ -35,6 +35,17 @@ const transporter = nodemailer.createTransport({
     pass: "bzjz fsev xwoh dgkt", // Replace with your Gmail password or app-specific password
   },
 });
+// SQL Server configuration
+const config = {
+  user: "aperezNWO_SQLLogin_1",
+  password: "aperezNWO_SQLLogin_1",
+  server: "webapiangulardemo.mssql.somee.com",
+  database: "webapiangulardemo",
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,
+  },
+};
 //---------------------------------------------------
 // Handling GET requests for different endpoints
 //---------------------------------------------------
@@ -42,7 +53,8 @@ const transporter = nodemailer.createTransport({
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "*",
+    origin: "https://apereznwo.github.io",
+    credentials: true,
   })
 );
 
