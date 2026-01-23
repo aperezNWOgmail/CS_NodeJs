@@ -180,7 +180,7 @@ app.post("/contact", async (req, res) => {
       "<p>Pronto estaremos contactandolo." +
       "<br><br>Atte : <b>Pablo Alejandro Pérez Acosta</b>." +
       "<br><br>Linkedin : <a href='www.linkedin.com/in/pablo-alejandro-pérez-acosta-54765770' target='_blank'>(ir a perfil)</a>" +
-      "<br><br>Whatsapp : <a href='https://wa.me/573204294533?text=Hola%20Necesito%20Asesoria!' target='_blank'>+573223573416</a>" +
+      "<br><br>Whatsapp : <a href='https://wa.me/573204294533?text=Hola%20Necesito%20Asesoria!' target='_blank'>+573204294533</a>" +
       "<br><br>Demo     : <a href='https://apereznwo.github.io/PWA_DEMO_ENV_PUBLIC?landingPage=PAGE_DEMOS_LIBRARIES_INDEX' target='_blank'>(Ir a Demo)</a></p>";
 
     sendDynamicEmail(recipient, emailSubject, emailText, emailHtml);
