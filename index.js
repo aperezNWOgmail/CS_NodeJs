@@ -240,6 +240,48 @@ function sendDynamicEmail(to, subject, text, html) {
     }
   });
 }
+
+/////////////////////////////////////////////////////////
+// CHAT FUNCTIONS
+/////////////////////////////////////////////////////////
+//
+import { createServer } from 'http';
+import { Server       } from 'socket.io';
+const httpServer = createServer(app);
+
+// Initialize Socket.io with your CORS configuration
+const io = new Server(httpServer, {
+  cors: {
+    origin: "https://apereznwo.github.io",
+    methods: ["GET", "POST"],
+    credentials: true,
+  },
+});
+
+// New Endpoint: Returns the current Node.js version
+app.get('/getNodeVersion', (req, res) => {
+    res.send(process.version);
+});
+
+// Socket.io connection logic
+io.on("connection", (socket) => {
+  console.log("A user connected");
+
+  socket.on("message", (msg) => {
+    console.log("Message:", msg);
+    io.emit("message", msg); 
+  });
+
+  socket.on("disconnect", () => {
+    console.log("A user disconnected");
+  });
+});
+
+const PORT = process.env.PORT || 3000;
+httpServer.listen(PORT, () => {
+  console.log(`Server listening on port ${PORT}`);
+});
+
 //---------------------------------------------------
 // DRIVER CODE
 //---------------------------------------------------
