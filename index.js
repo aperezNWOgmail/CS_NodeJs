@@ -4,8 +4,6 @@
 import SudokuGenerate, { SudokuSolve } from "./modules/sudoku.js";
 import generarinformejson, {
   GenerarInformeCSVJson,
-  GetAllContactForms,
-  config,
 } from "./modules/database.js";
 //
 import express from "express";
@@ -37,6 +35,17 @@ const transporter = nodemailer.createTransport({
     pass: "bzjz fsev xwoh dgkt", // Replace with your Gmail password or app-specific password
   },
 });
+// SQL Server configuration
+const config = {
+  user: "aperezNWO_SQLLogin_1",
+  password: "aperezNWO_SQLLogin_1",
+  server: "webapiangulardemo.mssql.somee.com",
+  database: "webapiangulardemo",
+  options: {
+    encrypt: true,
+    trustServerCertificate: true,
+  },
+};
 //---------------------------------------------------
 // Handling GET requests for different endpoints
 //---------------------------------------------------
@@ -44,7 +53,8 @@ const transporter = nodemailer.createTransport({
 app.use(bodyParser.json());
 app.use(
   cors({
-    origin: "https://apereznwo.github.io",
+    //origin: "https://apereznwo.github.io",
+    origin: "*",
     credentials: true,
   })
 );
@@ -103,23 +113,7 @@ app.get("/tictactoe", (req, res) => {
   //
   console.log(result);
 })();
-// getAllContactForms
-(async () => {
-  //
-  const result = await GetAllContactForms();
-  //
-  app.get("/getAllContactForms", (req, res) => {
-    res.set(
-      "Cache-Control",
-      "no-store, no-cache, must-revalidate, proxy-revalidate"
-    );
-    res.set("Pragma", "no-cache");
-    res.set("Expires", "0");
-    res.send(result);
-  });
-  //
-  console.log(result);
-})();
+
 // index
 async function GetIndex() {
   //
@@ -139,6 +133,12 @@ async function GetIndex() {
   //
   console.log(result);
 })();
+
+// NODE.JS VERSION 
+app.get('/getNodeVersion', (req, res) => {
+    res.send(process.version);
+});
+
 /////////////////////////////////////////////////////////
 // SMTP FUNCTIONS
 /////////////////////////////////////////////////////////
@@ -187,7 +187,7 @@ app.post("/contact", async (req, res) => {
       "<p>Pronto estaremos contactandolo." +
       "<br><br>Atte : <b>Pablo Alejandro Pérez Acosta</b>." +
       "<br><br>Linkedin : <a href='www.linkedin.com/in/pablo-alejandro-pérez-acosta-54765770' target='_blank'>(ir a perfil)</a>" +
-      "<br><br>Whatsapp : <a href='https://wa.me/573204294533?text=Hola%20Necesito%20Asesoria!' target='_blank'>+573223573416</a>" +
+      "<br><br>Whatsapp : <a href='https://wa.me/573223573416?text=Hola%20Necesito%20Asesoria!' target='_blank'>+573223573416</a>" +
       "<br><br>Demo     : <a href='https://apereznwo.github.io/PWA_DEMO_ENV_PUBLIC' target='_blank'>(Ir a Demo)</a></p>";
 
     sendDynamicEmail(recipient, emailSubject, emailText, emailHtml);
@@ -240,7 +240,6 @@ function sendDynamicEmail(to, subject, text, html) {
     }
   });
 }
-
 //---------------------------------------------------
 // DRIVER CODE
 //---------------------------------------------------

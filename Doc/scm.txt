@@ -1,2 +1,160 @@
---[_] openssl req -x509 -newkey rsa:4096 -keyout key.pem -out self-signed.crt -days 365 -subj "/C=US/ST=California/L=San Francisco/O=Example Inc./CN=example.com"
---[_] openssl req -x509 -newkey rsa:4096 -keyout key.pem -out self-signed.crt -days 365 -subj "/C=US/ST=California/L=San Francisco/O=Example Inc./CN=webapiangulardemo.mssql.somee.com"
+################################################
+## SCM
+################################################
+
+
+################################################
+## GIT  
+################################################
+
+
+echo "# CS_NodeJs_Ocr_" >> README.md
+git init
+git add README.md
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/aperezNWO/CS_NodeJs_Ocr_.git
+git push -u origin main
+
+
+################################################
+## GIT PUBLISH NEW CHANGES
+################################################
+
+cd <directory_name>
+
+##  Create a new PAT with correct scope
+
+Go to https://github.com/settings/tokens/new (make sure you're logged in as aperezNWO)
+Fill in:
+
+Note: codespaces-write
+Expiration: 90 days
+Scopes: ✅ repo (the top-level checkbox — this gives full repo access
+
+
+
+# git remote set-url origin https://Exam70486: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@github.com/Exam70486/cs_nodejs_ocr_.git
+# git remote set-url origin https://Exam70486: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@github.com/Exam70486/cs_nodejs_ocr_.git
+# git remote set-url origin https://Exam70486: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@github.com/Exam70486/cs_nodejs_ocr_.git
+# git remote set-url origin https://Exam70486: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@github.com/Exam70486/cs_nodejs_ocr_.git
+# git remote set-url origin https://Exam70486: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@github.com/Exam70486/cs_nodejs_ocr_.github
+unset GITHUB_TOKEN
+git remote set-url origin   https://Exam70486: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@github.com/Exam70486/cs_nodejs_ocr_.git
+
+(allow secrets when needed)
+
+git add * 
+git commit -m"docker cchanges" -a 
+git push 
+git pull 
+
+################################################
+## NODE.JS   
+################################################
+
+pkill node
+node index.js 
+
+################################################
+## OPENCV   
+################################################
+
+# Step 1: Install OpenCV system library (done)
+sudo apt-get update
+sudo apt-get install libopencv-dev
+
+# Step 2: Install Node.js wrapper (MUST do this too!)
+
+    # Set the correct library path (adjust if your path is different)
+    export OPENCV_LIB_DIR=/usr/lib/x86_64-linux-gnu
+
+    # Also set include path
+    export OPENCV_INCLUDE_DIR=/usr/include/opencv4
+
+    # Clean reinstall
+    rm -rf package-lock.json
+    npm cache clean --force
+    export OPENCV4NODEJS_DISABLE_AUTOBUILD=1
+
+    # ⏳ This compiles OpenCV — takes 5–10 min the first time
+    npm install @u4/opencv4nodejs --verbose 
+
+    # in case of faluire remove the following entries from packages.json and try again previous step
+    "node-webcam": "^0.8.2",    
+    "node-ocr": "^0.8.2",
+
+    # try all installation
+    npm install
+    
+################################################    
+
+/////////////////////////////////////////
+// DOCKER
+/////////////////////////////////////////
+
+--------------------------
+--------------------------
+-- FIRSR TIME BUILD
+--------------------------
+--------------------------
+
+## BUILD FROM GITHUB CODESPACES  --> "Owned by 'aperezNWO'"
+0) https://github.com/codespaces
+
+# docker must be installed on desktop. it was from codespaces, only visual studio code extensions was installed
+1) docker buildx build -t cs_nodejs .
+
+# create a tag previous to publish
+3) docker tag cs_nodejs:latest apereznwogmail/cs_nodejs:latest
+
+
+# list images built
+2) docker image ls 
+
+# log into docker for publish
+# get PAT from https://app.docker.com/accounts/apereznwogmail/settings/personal-access-tokens
+## must return 'Login Succeeded'
+4) echo "YOUR_PAT_HERE" | docker login --username apereznwogmail --password-stdin
+
+# publish in docker hub
+# https://hub.docker.com/
+5) docker push apereznwogmail/cs_nodejs_ocr:latest
+
+# URL FOR RENDER : https://dashboard.render.com/
+6) docker.io/apereznwogmail/cs_nodejs:latest
+
+--------------------------
+--------------------------
+-- PUBLISH CHANGES
+--------------------------
+--------------------------
+
+## 0. save changes on git.
+git add * && git commit -m"fractal changes" && git push && git pull 
+
+## 1. docker build -t my-spring-boot-app .
+docker buildx build -t cs_nodejs .
+
+## 2. docker tag my-spring-boot-app yourusername/your-repo:latest
+docker tag cs_nodejs:latest apereznwogmail/cs_nodejs:latest
+
+## 3. log into docker for publish
+## get/create PAT from https://app.docker.com/accounts/apereznwogmail/settings/personal-access-tokens
+## create with read/write scope
+echo "YOUR_PAT_HERE" | docker login --username apereznwogmail --password-stdin
+
+## 4. docker push yourusername/your-repo:latest
+docker push apereznwogmail/cs_nodejs_ocr:latest 
+
+--------------------------
+--------------------------
+-- DOCUMENTATION
+--------------------------
+--------------------------
+
+1) AI GUIDE : https://docs.docker.com/get-started/ --> GORDON
+
+2) GUIDES   : https://docs.docker.com/guides/java/
+
+/////////////////////////////////////////
