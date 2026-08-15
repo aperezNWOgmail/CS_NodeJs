@@ -146,7 +146,7 @@ docker tag cs_nodejs:latest apereznwogmail/cs_nodejs:latest
 echo "YOUR_PAT_HERE" | docker login --username apereznwogmail --password-stdin
 
 ## 4. docker push yourusername/your-repo:latest
-docker push apereznwogmail/cs_nodejs_ocr:latest 
+docker push apereznwogmail/cs_nodejs:latest 
 
 --------------------------
 --------------------------
