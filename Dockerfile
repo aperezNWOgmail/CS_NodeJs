@@ -1,18 +1,36 @@
-# Use an official Node.js runtime as the base image
-FROM node:20-slim
+FROM node:20-bullseye
 
-# Set the working directory inside the container
 WORKDIR /app
 
-# Copy package files and install dependencies
-COPY package*.json ./
-RUN npm install
+# canvas (node-canvas) needs these system libs to compile its native binding.
+# @techstark/opencv-js is pure WASM — no system OpenCV needed at all.
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    build-essential \
+    libcairo2-dev \
+    libpango1.0-dev \
+    libjpeg-dev \
+    libgif-dev \
+    librsvg2-dev \
+    tesseract-ocr \
+    tesseract-ocr-eng \
+    python3 \
+    && rm -rf /var/lib/apt/lists/*
 
-# Copy the rest of your application code
+# Skip opencv4nodejs native build entirely — we no longer need it
+ENV OPENCV4NODEJS_DISABLE_AUTOBUILD=1
+
+COPY package.json package-lock.json* ./
+
+# Install with scripts enabled so node-canvas can compile its binding
+RUN npm ci
+
 COPY . .
 
-# Expose the port your app runs on
+RUN groupadd -r appuser && useradd -r -g appuser appuser \
+    && chown -R appuser:appuser /app
+USER appuser
+
+ENV PORT=3000
 EXPOSE 3000
 
-# Command to run your app
-CMD ["node", "index.js"]
+CMD ["node", "index.js"]CMD ["node", "index.js"]
