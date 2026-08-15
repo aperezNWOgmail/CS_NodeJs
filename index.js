@@ -5,12 +5,12 @@ import SudokuGenerate, { SudokuSolve } from "./modules/sudoku.js";
 import generarinformejson, {
   GenerarInformeCSVJson,
 } from "./modules/database.js";
+import { sendDynamicEmail } from "./modules/EmailManager.js";
 //
 import express from "express";
 import cors from "cors";
 import fs from "fs";
 import TicTacToeTest from "./modules/tictactoe.cjs";
-import nodemailer from "nodemailer";
 import bodyParser from "body-parser";
 import sql from "mssql";
 //---------------------------------------------------
@@ -25,16 +25,6 @@ let portNumber = 4000;
 //
 const app = express();
 //
-const transporter = nodemailer.createTransport({
-  service: "gmail", // Use Gmail's SMTP server
-  host: "smtp.gmail.com",
-  port: 587, //587, // Port for TLS
-  secure: false, // true for 465 (SSL), false for other ports
-  auth: {
-    user: "alejandro.perez.acosta@gmail.com", // Replace with your Gmail address
-    pass: "bzjz fsev xwoh dgkt", // Replace with your Gmail password or app-specific password
-  },
-});
 // SQL Server configuration
 const config = {
   user: "aperezNWO_SQLLogin_1",
@@ -58,6 +48,26 @@ app.use(
     credentials: true,
   })
 );
+
+//---------------------------------------------------
+// MIDDLEWARE: HTTP Request Logger for Render & Hostings
+//---------------------------------------------------
+app.use((req, res, next) => {
+  const start = Date.now();
+  res.on('finish', () => {
+    const duration = Date.now() - start;
+    const logMessage = `[HTTP] ${req.method} ${req.originalUrl || req.url} - Status: ${res.statusCode} - ${duration}ms - IP: ${req.ip}`;
+    console.log(logMessage);
+  });
+  next();
+});
+
+//---------------------------------------------------
+// PING ENDPOINT: Returns zero kb data
+//---------------------------------------------------
+app.get("/ping", (req, res) => {
+  res.status(204).send(); // 204 No Content responds with zero bytes of data
+});
 
 app.get("/Sudoku_Solve_NodeJS", (req, res) => {
   //
@@ -114,25 +124,6 @@ app.get("/tictactoe", (req, res) => {
   console.log(result);
 })();
 
-// index
-async function GetIndex() {
-  //
-  const data = await fs.readFileSync("index.html", "utf8");
-  //const data = await fs.readFileSync("index.html");
-  //
-  return data;
-}
-//
-(async () => {
-  //
-  const result = await GetIndex();
-  //
-  app.get("/Index", (req, res) => {
-    res.send(result);
-  });
-  //
-  console.log(result);
-})();
 
 // NODE.JS VERSION 
 app.get('/getNodeVersion', (req, res) => {
@@ -140,23 +131,23 @@ app.get('/getNodeVersion', (req, res) => {
 });
 
 /////////////////////////////////////////////////////////
-// SMTP FUNCTIONS
+// SMTP ENDPOINT ROUTE
 /////////////////////////////////////////////////////////
 app.get("/SendEmail", (req, res) => {
-  //
-  const result = "";
-  // Step 3: Send the email
-  transporter.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.error("Error sending email:", error);
-    } else {
-      console.log("Email sent successfully:", info.response);
-      result = info.response;
-    }
-  });
-  //
-  res.send(result);
+  try {
+    sendDynamicEmail(
+      "alejandro.perez.acosta@gmail.com",
+      "Test Notification",
+      "This is a test notification email from Web API.",
+      "<h3>This is a test notification email from Web API.</h3>"
+    );
+    res.status(200).send({ message: "Email dispatch triggered successfully!" });
+  } catch (error) {
+    console.error("Error triggering email route:", error);
+    res.status(500).send({ error: "Failed to send email." });
+  }
 });
+
 //
 // POST endpoint to handle form submission
 app.post("/contact", async (req, res) => {
@@ -211,35 +202,12 @@ app.post("/contact", async (req, res) => {
 
     sendDynamicEmail(_recipient, _emailSubject, _emailText, _emailHtml);
 
-    // + ";"
-
     res.status(200).send({ message: "Form submitted successfully!" });
   } catch (err) {
     console.error("Error inserting data:", err);
     res.status(500).send({ error: "An error occurred while saving the data." });
   }
 });
-//
-// Step 2: Function to send email with dynamic options
-function sendDynamicEmail(to, subject, text, html) {
-  // Define the base mailOptions
-  const _mailOptions = {
-    from: "alejandro.perez.acosta@gmail.com", // Sender address
-    to: to, // List of recipients
-    subject: subject, // Subject line
-    text: text, // Plain text body
-    html: html, // HTML body
-  };
-
-  // Step 3: Send the email
-  transporter.sendMail(_mailOptions, (error, info) => {
-    if (error) {
-      console.error("Error sending email:", error);
-    } else {
-      console.log("Email sent successfully:", info.response);
-    }
-  });
-}
 
 /////////////////////////////////////////////////////////
 // CHAT FUNCTIONS
@@ -256,11 +224,6 @@ const io = new Server(httpServer, {
     methods: ["GET", "POST"],
     credentials: true,
   },
-});
-
-// New Endpoint: Returns the current Node.js version
-app.get('/getNodeVersion', (req, res) => {
-    res.send(process.version);
 });
 
 // Socket.io connection logic
@@ -283,6 +246,36 @@ httpServer.listen(PORT, () => {
 });
 
 //---------------------------------------------------
+// HEALTH ENDPOINT: Describes all available endpoints and system status
+//---------------------------------------------------
+app.get("/health", (req, res) => {
+  const healthInfo = {
+    status: "UP",
+    appName: appName,
+    version: appVersion,
+    nodeVersion: process.version,
+    uptime: process.uptime(),
+    timestamp: new Date().toISOString(),
+    endpoints: [
+      { path: "/ping", method: "GET", description: "Returns a zero KB (204 No Content) response for health checking." },
+      { path: "/health", method: "GET", description: "Describes system status and all available REST endpoints." },
+      { path: "/Sudoku_Solve_NodeJS", method: "GET", description: "Solves a Sudoku puzzle given via query parameter p_matrix." },
+      { path: "/Sudoku_Generate_NodeJS", method: "GET", description: "Generates a new Sudoku puzzle." },
+      { path: "/tictactoe", method: "GET", description: "Runs/tests Tic-Tac-Toe module logic." },
+      { path: "/DatabaseConnect", method: "GET", description: "Returns database report or connection status JSON." },
+      { path: "/GenerarInformeCSVJson", method: "GET", description: "Returns generated CSV/JSON report data." },
+      { path: "/generarinformejson", method: "GET", description: "Returns general JSON report output." },
+      { path: "/Index", method: "GET", description: "Serves the index.html content." },
+      { path: "/getNodeVersion", method: "GET", description: "Returns the active Node.js version." },
+      { path: "/SendEmail", method: "GET", description: "Triggers a test email notification." },
+      { path: "/contact", method: "POST", description: "Handles contact form submission, saves to SQL server, and emails confirmations." }
+    ]
+  };
+  res.status(200).json(healthInfo);
+});
+
+
+//---------------------------------------------------
 // DRIVER CODE
 //---------------------------------------------------
 //
@@ -293,15 +286,3 @@ app.listen(portNumber, () => {
   console.log(" Application Version    : " + appVersion);
   console.log(" Server running on port : " + portNumber);
 });
-
-// To stop the server
-// For example, you might use Ctrl + C in your terminal to trigger this function
-const stopServer = () => {
-  server.close(() => {
-    console.log("Server stopped");
-  });
-};
-
-// Call stopServer when you want to stop the server
-// For example, you might trigger it in response to a specific condition or manually via some signal.
-// stopServer();
