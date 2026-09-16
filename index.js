@@ -13,6 +13,10 @@ import fs from "fs";
 import TicTacToeTest from "./modules/tictactoe.cjs";
 import bodyParser from "body-parser";
 import sql from "mssql";
+import { createRequire } from 'module';
+// If you need require() capability in an ES Module, you can create it like this:
+const require = createRequire(import.meta.url);
+const packageJson = require('./package.json');
 //---------------------------------------------------
 // VARIABLE DECLARATION
 //---------------------------------------------------
@@ -133,11 +137,9 @@ app.get('/getNodeVersion', (req, res) => {
 // Server Framework Version Endpoint (Express version)
 app.get('/getNodeWebServerVersion', (req, res) => {
     // You can also read this dynamically from package.json if you want your app version instead
-    const expressVersion = require('express/package.json').version;
-    
     res.json({
-        server: 'Express',
-        version: expressVersion // e.g., "4.19.2"
+        server: 'Express / Node App',
+        version: packageJson.version // Reads the version from your project's package.json
     });
 });
 /////////////////////////////////////////////////////////
