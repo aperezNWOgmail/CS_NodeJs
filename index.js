@@ -130,6 +130,16 @@ app.get('/getNodeVersion', (req, res) => {
     res.send(process.version);
 });
 
+// Server Framework Version Endpoint (Express version)
+app.get('/getNodeWebServerVersionn', (req, res) => {
+    // You can also read this dynamically from package.json if you want your app version instead
+    const expressVersion = require('express/package.json').version;
+    
+    res.json({
+        server: 'Express',
+        version: expressVersion // e.g., "4.19.2"
+    });
+});
 /////////////////////////////////////////////////////////
 // SMTP ENDPOINT ROUTE
 /////////////////////////////////////////////////////////
@@ -267,6 +277,7 @@ app.get("/health", (req, res) => {
       { path: "/generarinformejson", method: "GET", description: "Returns general JSON report output." },
       { path: "/Index", method: "GET", description: "Serves the index.html content." },
       { path: "/getNodeVersion", method: "GET", description: "Returns the active Node.js version." },
+      { path: "/getNodeWebServerVersion", method: "GET", description: "Returns the active express version." },
       { path: "/SendEmail", method: "GET", description: "Triggers a test email notification." },
       { path: "/contact", method: "POST", description: "Handles contact form submission, saves to SQL server, and emails confirmations." }
     ]
