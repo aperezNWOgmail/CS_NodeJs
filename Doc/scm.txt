@@ -21,8 +21,7 @@ git push -u origin main
 ## GIT PUBLISH NEW CHANGES
 ################################################
 
-cd <directory_name>
-
+##  IF EXTRA AUTHENTICATIN NEEDED
 ##  Create a new PAT with correct scope
 
 Go to https://github.com/settings/tokens/new (make sure you're logged in as aperezNWO)
@@ -34,12 +33,9 @@ Scopes: ✅ repo (the top-level checkbox — this gives full repo access
 
 
 
-unset GITHUB_TOKEN
-git remote set-url origin   https://Exam70486:<YOUR_TOKEN_HERE>k@github.com/Exam70486/cs_nodejs_ocr_.git
-
-(allow secrets when needed)
-
 git add * 
+## IF EXTRA AUTHENTICATION NEEDED
+    git remote set-url origin   https://Exam70486:<YOUR_TOKEN_HERE>k@github.com/Exam70486/cs_nodejs_ocr_.git
 git commit -m"docker cchanges" -a 
 git push 
 git pull 
@@ -87,6 +83,27 @@ sudo apt-get install libopencv-dev
 /////////////////////////////////////////
 // DOCKER
 /////////////////////////////////////////
+--------------------------
+--------------------------
+-- CHEDK DISK SPACE
+--------------------------
+--------------------------
+
+# This removes all stopped containers, unused networks, and dangling images
+docker system prune -a --volumes -f
+
+# This clears out hidden build caches (crucial for freeing up space)
+docker builder prune -a -f
+
+#
+pip cache purge
+
+
+#
+sudo apt-get clean
+
+m check disk space
+df -h . && du -h --max-depth=1 | sort -hr
 
 --------------------------
 --------------------------
@@ -97,27 +114,38 @@ sudo apt-get install libopencv-dev
 ## BUILD FROM GITHUB CODESPACES  --> "Owned by 'aperezNWO'"
 0) https://github.com/codespaces
 
-# docker must be installed on desktop. it was from codespaces, only visual studio code extensions was installed
-1) docker buildx build -t cs_nodejs .
-
-# create a tag previous to publish
-3) docker tag cs_nodejs:latest apereznwogmail/cs_nodejs:latest
-
-
-# list images built
-2) docker image ls 
-
 # log into docker for publish
 # get PAT from https://app.docker.com/accounts/apereznwogmail/settings/personal-access-tokens
 ## must return 'Login Succeeded'
-4) echo "YOUR_PAT_HERE" | docker login --username apereznwogmail --password-stdin
+    echo "YOUR_PAT_HERE" | docker login --username apereznwogmail --password-stdin
+
+
+# docker must be installed on desktop. it was from codespaces, only visual studio code extensions was installed
+    docker buildx build -t cs_nodejs .
+
+# create a tag previous to publish
+    docker tag cs_nodejs:latest apereznwogmail/cs_nodejs:latest
+
+
+# list images built
+    docker image ls 
 
 # publish in docker hub
 # https://hub.docker.com/
-5) docker push apereznwogmail/cs_nodejs_ocr:latest
+    docker push apereznwogmail/cs_nodejs_ocr:latest
 
 # URL FOR RENDER : https://dashboard.render.com/
-6) docker.io/apereznwogmail/cs_nodejs:latest
+    docker.io/apereznwogmail/cs_nodejs:latest
+
+--------------------------
+--------------------------
+-- REMOTE TESTING
+--------------------------
+--------------------------
+## REMOTE ENDPOINT
+
+## CRONJOBS ==> https://console.cron-job.org/jobs
+    https://cs-nodejs-latest-otdv.onrender.com/ping
 
 --------------------------
 --------------------------
