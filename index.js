@@ -131,7 +131,7 @@ app.get('/getNodeVersion', (req, res) => {
 });
 
 // Server Framework Version Endpoint (Express version)
-app.get('/getNodeWebServerVersionn', (req, res) => {
+app.get('/getNodeWebServerVersion', (req, res) => {
     // You can also read this dynamically from package.json if you want your app version instead
     const expressVersion = require('express/package.json').version;
     
